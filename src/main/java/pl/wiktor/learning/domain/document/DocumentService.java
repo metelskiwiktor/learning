@@ -164,12 +164,13 @@ public class DocumentService {
         TimetableView timetableView = new TimetableView(new ArrayList<>(), overdueDocuments);
         for (int i = 1; i <= 42; i++) {
             LocalDate date = mappedDaysPerMonth.get(i);
-            Instant from = date.atStartOfDay().plusDays(1).atZone(ZoneId.systemDefault()).toInstant();
-            Instant to = date.atStartOfDay().minusDays(1).atZone(ZoneId.systemDefault()).toInstant();
-            Document document = getDocumentByDay(from, date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant(), userId);
+            LocalDate from = date.plusDays(1);
+            LocalDate to = date.minusDays(1);
+            Document document = getDocumentByDay(from, to, userId);
             LightDocumentView lightDocumentView = conversionService.convert(document, LightDocumentView.class);
 
-            List<EventView> events = eventService.getEventsTo(userId, to, from).stream()
+            List<EventView> events = eventService.getEventsTo(userId, from.minusDays(1).atStartOfDay().toInstant(ZoneOffset.MIN),
+                    to.atStartOfDay().toInstant(ZoneOffset.MIN)).stream()
                     .map(event -> conversionService.convert(event, EventView.class))
                     .collect(Collectors.toList());
 
@@ -221,7 +222,7 @@ public class DocumentService {
         return map;
     }
 
-    private Document getDocumentByDay(Instant start, Instant end, String userId) {
+    private Document getDocumentByDay(LocalDate start, LocalDate end, String userId) {
         return documentRepository.getByStartAtBeforeAndEndAtAfterAndTo_IdEquals(
                 start,
                 end,

@@ -3,29 +3,27 @@ package pl.wiktor.learning.api.dto.response.event;
 import pl.wiktor.learning.api.dto.response.document.LightDocumentView;
 import pl.wiktor.learning.domain.event.Type;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class EventView {
     private String id;
-    private LocalDate plannedAt;
+    private LocalDateTime plannedAt;
     private List<LightDocumentView> documents;
     private Type type;
-    private String toUserId;
 
-    public EventView(String id, LocalDate plannedAt, List<LightDocumentView> documents, Type type, String toUserId) {
+    public EventView(String id, LocalDateTime plannedAt, List<LightDocumentView> documents, Type type) {
         this.id = id;
         this.plannedAt = plannedAt;
         this.documents = documents;
         this.type = type;
-        this.toUserId = toUserId;
     }
 
     public String getId() {
         return id;
     }
 
-    public LocalDate getPlannedAt() {
+    public LocalDateTime getPlannedAt() {
         return plannedAt;
     }
 
@@ -35,9 +33,5 @@ public class EventView {
 
     public Type getType() {
         return type;
-    }
-
-    public String getToUserId() {
-        return toUserId;
     }
 }

@@ -35,10 +35,9 @@ public class EventToEventViewConverter implements Converter<Event, EventView> {
 
         return new EventView(
                 event.getId(),
-                LocalDateTime.ofInstant(event.getPlanningAt(), ZoneId.systemDefault()).toLocalDate(),
+                LocalDateTime.ofInstant(event.getPlanningAt(), ZoneId.systemDefault()),
                 documents,
-                event.getType(),
-                event.getTo().getId()
+                event.getType()
         );
     }
 }

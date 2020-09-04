@@ -6,5 +6,5 @@ import java.time.Instant;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, String> {
-    List<Event> findAllByPlanningAtBetweenAndTo_IdEquals(Instant start, Instant end, String toId);
+    List<Event> findAllByPlanningAtBeforeAndPlanningAtAfterAndTo_IdEquals(Instant start, Instant end, String toId);
 }

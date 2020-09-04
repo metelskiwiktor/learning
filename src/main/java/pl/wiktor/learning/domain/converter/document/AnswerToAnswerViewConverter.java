@@ -25,7 +25,7 @@ public class AnswerToAnswerViewConverter implements Converter<Answer, AnswerView
                 answer.getId(),
                 fileView,
                 answer.getAddedAt(),
-                answer.getAnswerStatus().getPolishTranslate(),
+                answer.getAnswerStatus().toString(),
                 answer.getAdministratorNote()
         );
     }

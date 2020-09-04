@@ -18,7 +18,7 @@ public class DocumentToLightDocumentViewConverter implements Converter<Document,
                 document.getTitle(),
                 document.getStartAt(),
                 document.getEndAt(),
-                document.getDocumentStatus().getPolishTranslate()
+                document.getDocumentStatus()
         );
     }
 }

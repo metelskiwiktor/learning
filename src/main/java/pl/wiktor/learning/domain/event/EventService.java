@@ -42,7 +42,7 @@ public class EventService {
     }
 
     public List<Event> getEventsTo(String userId, Instant from, Instant to) {
-        return eventRepository.findAllByPlanningAtBetweenAndTo_IdEquals(from, to, userId);
+        return eventRepository.findAllByPlanningAtBeforeAndPlanningAtAfterAndTo_IdEquals(from, to, userId);
     }
 
     private Document getDocumentById(String id) {

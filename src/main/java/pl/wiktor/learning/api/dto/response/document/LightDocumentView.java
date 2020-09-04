@@ -1,6 +1,7 @@
 package pl.wiktor.learning.api.dto.response.document;
 
-import java.time.Instant;
+import pl.wiktor.learning.domain.document.DocumentStatus;
+
 import java.time.LocalDate;
 
 public class LightDocumentView {
@@ -8,9 +9,9 @@ public class LightDocumentView {
     private String title;
     private LocalDate startAt;
     private LocalDate endAt;
-    private String documentStatus;
+    private DocumentStatus documentStatus;
 
-    public LightDocumentView(String id, String title, LocalDate startAt, LocalDate endAt, String documentStatus) {
+    public LightDocumentView(String id, String title, LocalDate startAt, LocalDate endAt, DocumentStatus documentStatus) {
         this.id = id;
         this.title = title;
         this.startAt = startAt;
@@ -37,7 +38,7 @@ public class LightDocumentView {
         return endAt;
     }
 
-    public String getDocumentStatus() {
+    public DocumentStatus getDocumentStatus() {
         return documentStatus;
     }
 }

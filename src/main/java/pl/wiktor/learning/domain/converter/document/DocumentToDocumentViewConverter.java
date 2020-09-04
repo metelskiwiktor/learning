@@ -45,7 +45,7 @@ public class DocumentToDocumentViewConverter implements Converter<Document, Docu
                 answerViews,
                 to,
                 from,
-                document.getDocumentStatus().getPolishTranslate(),
+                document.getDocumentStatus(),
                 document.getStartAt(),
                 document.getEndAt()
         );

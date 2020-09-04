@@ -1,9 +1,8 @@
 package pl.wiktor.learning.api.dto.response.document;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import pl.wiktor.learning.api.dto.response.file.FileView;
+import pl.wiktor.learning.domain.document.DocumentStatus;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,12 +13,12 @@ public class DocumentView {
     private List<AnswerView> answers;
     private UserView userToView;
     private UserView userFromView;
-    private String documentStatus;
+    private DocumentStatus documentStatus;
     private LocalDate startAt;
     private LocalDate endAt;
 
     public DocumentView(String id, String title, FileView questionsFile, List<AnswerView> answers, UserView userToView,
-                        UserView userFromView, String documentStatus, LocalDate startAt, LocalDate endAt) {
+                        UserView userFromView, DocumentStatus documentStatus, LocalDate startAt, LocalDate endAt) {
         this.id = id;
         this.title = title;
         this.questionsFile = questionsFile;
@@ -58,7 +57,7 @@ public class DocumentView {
         return userFromView;
     }
 
-    public String getDocumentStatus() {
+    public DocumentStatus getDocumentStatus() {
         return documentStatus;
     }
 
