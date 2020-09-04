@@ -97,18 +97,18 @@ public class DocumentService {
         answerRepository.save(answer);
     }
 
-    public List<LightDocumentView> getLightDocuments(String fromUser, String toUser, LocalDate fromDate, LocalDate toDate) {
+    public List<LightDocumentView> getLightDocuments(String fromUser, String toUser, LocalDate fromDate, LocalDate toDate, DocumentStatus documentStatus) {
         validateOwnObject(toUser);
 
-        return getDocuments(fromUser, toUser, fromDate, toDate).stream()
+        return getDocuments(fromUser, toUser, fromDate, toDate, documentStatus).stream()
                 .map(document -> conversionService.convert(document, LightDocumentView.class))
                 .collect(Collectors.toList());
     }
 
-    public List<DocumentView> getAllDocuments(String fromUser, String toUser, LocalDate fromDate, LocalDate toDate) {
+    public List<DocumentView> getAllDocuments(String fromUser, String toUser, LocalDate fromDate, LocalDate toDate, DocumentStatus documentStatus) {
         validateOwnObject(toUser);
 
-        return getDocuments(fromUser, toUser, fromDate, toDate).stream()
+        return getDocuments(fromUser, toUser, fromDate, toDate, documentStatus).stream()
                 .map(document -> conversionService.convert(document, DocumentView.class))
                 .collect(Collectors.toList());
     }
@@ -242,21 +242,21 @@ public class DocumentService {
                 .allMatch(answer -> answer.getAnswerStatus() == AnswerStatus.REJECTED);
     }
 
-    private List<Document> getDocuments(String fromUser, String toUser, LocalDate fromDate, LocalDate toDate) {
+    private List<Document> getDocuments(String fromUser, String toUser, LocalDate fromDate, LocalDate toDate, DocumentStatus documentStatus) {
         Predicate<Document> fromUserPredicate = document -> true;
         Predicate<Document> toUserPredicate = document -> true;
+        Predicate<Document> documentStatusPredicate = document -> true;
 
         if (!Objects.isNull(fromUser)) fromUserPredicate = document -> document.getFrom().getId().equals(fromUser);
         if (!Objects.isNull(toUser)) toUserPredicate = document -> document.getTo().getId().equals(toUser);
+        if(!Objects.isNull(documentStatus)) documentStatusPredicate = document -> document.getDocumentStatus() == documentStatus;
 
-        List<Document> all = documentRepository.findAll();
-
-        List<Document> collect = documentRepository.findAll().stream()
+        return documentRepository.findAll().stream()
                 .filter(fromUserPredicate)
                 .filter(toUserPredicate)
-                .filter(document -> document.getStartAt().isAfter(fromDate.minusDays(1)) && document.getEndAt().isBefore(toDate.plusDays(1)))
+                .filter(documentStatusPredicate)
+                .filter(document -> document.getStartAt().isAfter(fromDate.minusDays(1)) && document.getStartAt().isBefore(toDate.plusDays(1)))
                 .collect(Collectors.toList());
-        return collect;
     }
 
     public Document getDocumentById(String documentId) {

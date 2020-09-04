@@ -12,6 +12,7 @@ import pl.wiktor.learning.api.dto.response.document.DocumentView;
 import pl.wiktor.learning.api.dto.response.document.ReportView;
 import pl.wiktor.learning.api.dto.response.document.TimetableView;
 import pl.wiktor.learning.domain.document.DocumentService;
+import pl.wiktor.learning.domain.document.DocumentStatus;
 //import pl.wiktor.learning.infrastructure.security.SecurityContextUtils;
 
 import java.time.LocalDate;
@@ -80,20 +81,22 @@ public class DocumentController {
 
     @GetMapping("/light/all")
     public List<LightDocumentView> getLightDocuments(
+            @RequestParam(value = "document-status", required = false) DocumentStatus documentStatus,
             @RequestParam(value = "from-user", required = false) String fromUser,
             @RequestParam(value = "to-user", required = false) String toUser,
             @RequestParam(value = "from-date") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate fromDate,
             @RequestParam(value = "to-date") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate toDate){
-        return documentService.getLightDocuments(fromUser, toUser, fromDate, toDate);
+        return documentService.getLightDocuments(fromUser, toUser, fromDate, toDate, documentStatus);
     }
 
     @GetMapping("/all")
     public List<DocumentView> getDocuments(
+            @RequestParam(value = "document-status", required = false) DocumentStatus documentStatus,
             @RequestParam(value = "from-user", required = false) String fromUser,
             @RequestParam(value = "to-user", required = false) String toUser,
             @RequestParam(value = "from-date") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate fromDate,
             @RequestParam(value = "to-date") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate toDate){
-        return documentService.getAllDocuments(fromUser, toUser, fromDate, toDate);
+        return documentService.getAllDocuments(fromUser, toUser, fromDate, toDate, documentStatus);
     }
 
     @PostMapping("/timetable/{userId}")
